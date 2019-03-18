@@ -24,7 +24,7 @@ This application is currently hosted [Here](https://fgr-picture-upload-test.surg
 ## Technologies
 **Azure Cognitive Services -** For using Azure's Computer Vision Api<br>
 **Azure Blob Storage -** For storing images in the cloud<br>
-**Node.js -**  As javaScript runtime<br>
+**Node.js -**  As javaScript runtime for backend apis<br>
 **Express.js -** As web framework on Node.js to help with running the server<br>
 **React.js -** For frontend UI<br>
 **JavaScript -** As programming language used thoughout<br>
