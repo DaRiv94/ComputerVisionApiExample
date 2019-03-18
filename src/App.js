@@ -117,6 +117,12 @@ class App extends Component {
                 nature (depicts nudity or a sex act). Sexually suggestive
                 content is also detected.
               </li>
+              <li>
+                <strong>Celebrities</strong>- identifies celebrities if detected in the image.
+              </li>
+              <li>
+                <strong>Landmarks</strong>- identifies landmarks if detected in the image.
+              </li>
             </ul>
           </div>
           <div className="pictureDiv col-12 col-md-6">
