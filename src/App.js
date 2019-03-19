@@ -12,7 +12,10 @@ class App extends Component {
     this.state = {
       imageUrl: "",
       selectedFile: "",
-      visionApiData: ""
+      visionApiData: "",
+      uploadMessage: "",
+      uploadMessageClass: "",
+      dataReceived: false
     };
 
     this.fileUploadHandler = this.fileUploadHandler.bind(this);
@@ -20,29 +23,62 @@ class App extends Component {
   }
 
   fileSelectedHandler(event) {
-    console.log(event.target.files[0]);
+    //console.log(event.target.files[0]);
     this.setState({
-      selectedFile: event.target.files[0]
+      selectedFile: event.target.files[0],
+      uploadMessage: "",
+      uploadMessageClass: "",
+      dataReceived: false
     });
   }
 
   async fileUploadHandler() {
+    //console.log("this.state.selectedFile: ", this.state.selectedFile);
+    if (!this.state.selectedFile) {
+      this.setState({
+        uploadMessage: "Please select an image before uploading",
+        uploadMessageClass: "uploadGoodWaitingForData"
+      });
+    }
+
     try {
       const fd = new FormData();
-      console.log("Name: ", this.state.selectedFile.name);
       fd.append("title", this.state.selectedFile.name);
       fd.append("image", this.state.selectedFile, this.state.selectedFile.name);
       const res = await axios.post(
         "https://picuploadtest-0020-backendapi.herokuapp.com/upload",
         fd
       );
-      console.log(res.data);
+      //console.log(res.data)
       this.setState({ imageUrl: res.data });
+      if (this.state.imageUrl) {
+        this.setState({
+          uploadMessage: "waiting for data...",
+          uploadMessageClass: "uploadGoodWaitingForData"
+        });
+      } else {
+        this.setState({
+          uploadMessage: "sorry something went wrong with upload",
+          uploadMessageClass: "error"
+        });
+      }
 
       const data = await VisionApi.getPictureData(res.data);
       this.setState({ visionApiData: data });
+      if (this.state.visionApiData) {
+        this.setState({
+          uploadMessage: "Data Received!",
+          uploadMessageClass: "success",
+          dataReceived: true
+        });
+      } else {
+        this.setState({
+          uploadMessage: "sorry something went wrong computer vision api",
+          uploadMessageClass: "error"
+        });
+      }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }
 
@@ -86,6 +122,13 @@ class App extends Component {
               </div>
             </div>
 
+            <h5 className={this.state.uploadMessageClass}>
+              {this.state.uploadMessage}
+              <span className="scrollDownMessage">
+                {this.state.dataReceived ? " (Scroll down to see response)" : ""}
+              </span>
+            </h5>
+
             <h4>What does the Api look for?</h4>
             <ul>
               <li>
@@ -118,10 +161,12 @@ class App extends Component {
                 content is also detected.
               </li>
               <li>
-                <strong>Celebrities</strong>- identifies celebrities if detected in the image.
+                <strong>Celebrities</strong>- identifies celebrities if detected
+                in the image.
               </li>
               <li>
-                <strong>Landmarks</strong>- identifies landmarks if detected in the image.
+                <strong>Landmarks</strong>- identifies landmarks if detected in
+                the image.
               </li>
             </ul>
           </div>

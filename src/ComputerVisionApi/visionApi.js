@@ -34,13 +34,13 @@ class VisionApi {
           url: backendApiUrl,
           data: payload
         }).catch(error => { //need to look into why I need promise catch and try catch?? shouldnt I only need one?
-          console.log("Frontend first Catch: ", error);
+          //console.log("Frontend first Catch: ", error);
           reject(error);
         });
-        console.log(data);
+        //console.log(data);
         resolve(data.data);
       } catch (err) {
-        console.log("Frontend second Catch: ", err);
+        //console.log("Frontend second Catch: ", err);
         reject(err);
       }
     });
