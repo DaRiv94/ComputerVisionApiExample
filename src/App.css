@@ -63,13 +63,7 @@ h5.success{
   color:rgb(26, 182, 6);
 }
 
-/*For Tablets and larger*/
-@media (min-width: 768px) {
-  .scrollDownMessage {
-    display: none;
 
-  }
-}
 
 .pictureDiv {
   /* background-color: rgb(147, 147, 255); */
