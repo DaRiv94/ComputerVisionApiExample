@@ -36,7 +36,7 @@ class App extends Component {
     //console.log("this.state.selectedFile: ", this.state.selectedFile);
     if (!this.state.selectedFile) {
       this.setState({
-        uploadMessage: "Please select an image before uploading",
+        uploadMessage: "Please browse for image before uploading",
         uploadMessageClass: "uploadGoodWaitingForData"
       });
     }
