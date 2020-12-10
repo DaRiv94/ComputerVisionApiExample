@@ -1,3 +1,5 @@
+[<img src="./images/FGR_Transparent.png" width="100" />](https://frankieriviera.com)
+
 ## Computer Vision Api Example
 
 Computer Vision Api Example uses Microsoft Azure's Cognitive Services (specifically the [Computer Vision Api](https://docs.microsoft.com/en-us/azure/cognitive-services/Computer-vision/Home)) to analyze an uploaded image.
