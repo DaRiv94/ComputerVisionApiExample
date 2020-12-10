@@ -33,6 +33,10 @@ class App extends Component {
   }
 
   async fileUploadHandler() {
+
+    // let backendUploadUrl = "http://localhost:4000/upload"
+    let backendUploadUrl = "https://picuploadtest-0020-backendapi.herokuapp.com/upload"
+
     let tryupload = false;
     //console.log("this.state.selectedFile: ", this.state.selectedFile);
     if (!this.state.selectedFile) {
@@ -66,7 +70,7 @@ class App extends Component {
         fd.append("title", this.state.selectedFile.name);
         fd.append("image", this.state.selectedFile, this.state.selectedFile.name);
         const res = await axios.post(
-          "https://picuploadtest-0020-backendapi.herokuapp.com/upload",
+          backendUploadUrl,
           fd
         );
         //console.log(res.data)
