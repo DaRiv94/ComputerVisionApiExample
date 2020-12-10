@@ -33,53 +33,75 @@ class App extends Component {
   }
 
   async fileUploadHandler() {
+    let tryupload = false;
     //console.log("this.state.selectedFile: ", this.state.selectedFile);
     if (!this.state.selectedFile) {
       this.setState({
         uploadMessage: "Please browse for image before uploading",
         uploadMessageClass: "uploadGoodWaitingForData"
       });
-    }
+    } else {
 
-    try {
-      const fd = new FormData();
-      fd.append("title", this.state.selectedFile.name);
-      fd.append("image", this.state.selectedFile, this.state.selectedFile.name);
-      const res = await axios.post(
-        "https://picuploadtest-0020-backendapi.herokuapp.com/upload",
-        fd
-      );
-      //console.log(res.data)
-      this.setState({ imageUrl: res.data });
-      if (this.state.imageUrl) {
+      //Check The file type
+      const regex = RegExp(/\.(jpe?g|png|bmp)$/i);
+      if (regex.test(this.state.selectedFile.name)) {
+        tryupload = true;
         this.setState({
-          uploadMessage: "waiting for data...",
+          uploadMessage: "Uploading image...",
           uploadMessageClass: "uploadGoodWaitingForData"
         });
       } else {
         this.setState({
-          uploadMessage: "sorry something went wrong with upload",
-          uploadMessageClass: "error"
+          uploadMessage: "Please upload a file with the following extention jpg,jpeg,png,bmp",
+          uploadMessageClass: "uploadGoodWaitingForData"
         });
       }
 
-      const data = await VisionApi.getPictureData(res.data);
-      this.setState({ visionApiData: data });
-      if (this.state.visionApiData) {
-        this.setState({
-          uploadMessage: "Data Received!",
-          uploadMessageClass: "success",
-          dataReceived: true
-        });
-      } else {
-        this.setState({
-          uploadMessage: "sorry something went wrong computer vision api",
-          uploadMessageClass: "error"
-        });
-      }
-    } catch (err) {
-      //console.log(err);
+
     }
+
+    if (tryupload) {
+      try {
+        const fd = new FormData();
+        fd.append("title", this.state.selectedFile.name);
+        fd.append("image", this.state.selectedFile, this.state.selectedFile.name);
+        const res = await axios.post(
+          "https://picuploadtest-0020-backendapi.herokuapp.com/upload",
+          fd
+        );
+        //console.log(res.data)
+        this.setState({ imageUrl: res.data });
+        if (this.state.imageUrl) {
+          this.setState({
+            uploadMessage: "Waiting for data...",
+            uploadMessageClass: "uploadGoodWaitingForData"
+          });
+        } else {
+          this.setState({
+            uploadMessage: "Sorry something went wrong with upload",
+            uploadMessageClass: "error"
+          });
+        }
+
+        const data = await VisionApi.getPictureData(res.data);
+        this.setState({ visionApiData: data });
+        if (this.state.visionApiData) {
+          this.setState({
+            uploadMessage: "Data Received!",
+            uploadMessageClass: "success",
+            dataReceived: true
+          });
+        } else {
+          this.setState({
+            uploadMessage: "Sorry something went wrong computer vision api",
+            uploadMessageClass: "error"
+          });
+        }
+      } catch (err) {
+        //console.log(err);
+      }
+    }
+
   }
 
   render() {
