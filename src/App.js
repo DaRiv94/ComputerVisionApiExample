@@ -52,7 +52,7 @@ class App extends Component {
         });
       } else {
         this.setState({
-          uploadMessage: "Please upload a file with the following extention jpg,jpeg,png,bmp",
+          uploadMessage: "Please upload a file with the following extension jpg,jpeg,png,bmp",
           uploadMessageClass: "uploadGoodWaitingForData"
         });
       }
